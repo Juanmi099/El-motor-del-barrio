@@ -1,35 +1,12 @@
-const registro = [
-    { persona: "Don Pedro", categoria: "Aseo",    dia: 3, valor: 28500, cantidad: 3 },
-    { persona: "Doña Rosa", categoria: "Granos",  dia: 1, valor: 22300 , cantidad: 2},
-    { persona: "Doña Sofia", categoria: "Lácteos", dia: 5, valor: 10000, cantidad: 1 },
-    { persona: "Don Elver", categoria: "Legumbres", dia: 7, valor: 6000, cantidad: 5 },
-    { persona: "Don Santiago", categoria: "Enlatados", dia: 2, valor: 20000, cantidad: 2 },
-    { persona: "Doña Mariana", categoria: "Lácteos", dia: 4, valor: 24900, cantidad:  3},
-    { persona: "Doña Maria", categoria: "Enlatados", dia: 6, valor: 15000, cantidad: 1 },
-    { persona: "Doña Paola", categoria: "Aseo", dia: 4, valor: 40750, cantidad: 4 },
-    { persona: "Don Alejandro", categoria: "Legumbres", dia: 1, valor: 3000, cantidad:  5},
-    { persona: "Don sebastian", categoria: "Lácteos", dia: 7, valor: 32600, cantidad: 1 },
-    { persona: "Doña Clemencia", categoria: "Enlatados", dia: 6, valor: 17950, cantidad: 2 },
-    { persona: "Don Rogelio", categoria: "Aseo", dia: 3, valor: 45221, cantidad: 1 },
-    { persona: "Valentina", categoria: "Lácteos", dia: 1, valor: 6300, cantidad: 4 },
-    { persona: "Juanjose", categoria: "Granos", dia: 6, valor: 42800, cantidad: 3 },
-    { persona: "Miguel", categoria: "Granos", dia: 4, valor: 23600, cantidad: 6},
-    { persona: "Don Aurelio", categoria: "Legumbres", dia: 1, valor: 12000, cantidad:  2},
-    { persona: "Doña Teresa", categoria: "Lácteos", dia: 7, valor: 1700, cantidad: 2 },
-    { persona: "Violeta", categoria: "Aseo", dia: 3, valor: 11300, cantidad: 5 },
-    { persona: "Don Marcial", categoria: "Enlatados", dia: 6, valor: 27200, cantidad:1 },
-    { persona: "Don Pablo", categoria: "Enlatados", dia: 1, valor: 52000, cantidad: 3 },
-    { persona: "Don Hormedo", categoria: "Legumbres", dia: 3, valor: 23500, cantidad: 2 },
-    { persona: "Bryan", categoria: "Legumbres", dia: 5, valor: 11450, cantidad: 4 },
-    { persona: "Don Gustavo", categoria: "Lácteos", dia: 5, valor: 17400, cantidad: 1 },
-    { persona: "Isabela", categoria: "Aseo", dia: 5, valor: 36800, cantidad: 3},
-    { persona: "Doña Leticia", categoria: "Lácteos", dia: 7, valor: 19380 , cantidad: 2},
-    { persona: "Johan", categoria: "Granos", dia: 1, valor: 13600, cantidad: 1 },
-    { persona: "Don Mauricio", categoria: "Legumbres", dia: 2, valor: 27900, cantidad:2 },
-    { persona: "Don Angel", categoria: "Aseo", dia: 7, valor: 44000, cantidad: 7 },
-    { persona: "Don Ignacio", categoria: "Legumbres", dia: 3, valor: 14000, cantidad: 1 },
-    { persona: "Doña Lenny", categoria: "Granos", dia: 5, valor: 36200, cantidad: 5 },
-];
+// DIA 1 - DATOS
+
+const registro = require ("./db.js")
+
+let totalValores= []
+
+for (let i=0; i < registro.length;i++)  {
+    totalValores.push(registro[i].valor)
+    }
 
 function mostrarRegistro(registro) {
     if(!registro){
@@ -39,12 +16,87 @@ function mostrarRegistro(registro) {
     return `Persona: ${registro.persona} categoria: ${registro.categoria}  Dia: ${registro.dia} valor: ${registro.valor}  Cantidad: ${registro.cantidad}`
 }
 
-
-console.log(mostrarRegistro(registro[60]))
-
-
 function listarTodo(datos) {
     for(let i=0;i<datos.length;i++){
         console.log (mostrarRegistro(datos[i]))
     }
     }
+
+
+//console.log(listarTodo(registro)) 
+
+
+// DIA 2 - REPORTES
+
+    // 	totalGeneral(datos) - SUM VALORES
+function totalGeneral (reg,totalValores){
+        if(!reg) return "Este valor no esta en la lista"
+
+        let SumValores = totalValores.reduce((sumarvalores,listaValores)=> sumarvalores + listaValores,0)
+        return SumValores
+}
+
+
+
+
+    // promedio(datos) - PROM VALORES
+
+
+function promedio(totalValores) {
+    
+        let SumValores = totalValores.reduce((sumarvalores,listaValores)=> sumarvalores + listaValores,0)
+        let average = SumValores / totalValores.length
+        return average
+}
+   
+    
+    // 	registroMayor(datos) -Devuelve el registro con el valor más alto
+
+function registroMayor(totalValores) {
+        let mayorList = totalValores[0]
+
+        for (let i = 1; i < totalValores.length;i++){
+            if(mayorList < totalValores[i]){ 
+                mayorList = totalValores[i]
+            }
+        }
+        return mayorList
+    }
+
+//console.log(registroMayor(totalValores))
+
+// filtrarPorCategoria(datos, categoria) -Devuelve un arreglo con los registros de esa categoría
+
+function filtrarPorCategoria(registro, categoria){
+
+     for(let i=0;i<registro.length;i++){
+        if(registro[i].categoria == categoria)
+            console.log (registro [i]) 
+    }
+
+}
+filtrarPorCategoria(registro,"EnlatAdos")
+
+// totalesPorCategoria(datos) - Devuelve un objeto con el total de valor de cada categoría
+
+function totalesPorCategoria (registro, categoria){
+    let categoriaValor = []
+
+    for (let i=0; i < registro.length;i++)  {
+        if(registro[i].categoria == categoria)
+            categoriaValor.push(registro[i].valor)
+    }
+   
+    for(let i=0;i<categoria.length;i++){
+     if(registro[i].categoria == categoria) {
+          let SumCategoria = categoriaValor.reduce((sumarvalores,listaValores)=> sumarvalores + listaValores,0)
+          return `categoria: ${categoria} valorTotal: ${SumCategoria}`
+     }
+          
+    }
+        
+}   
+
+// ZONA DE PRUEBAS
+
+console.log(totalesPorCategoria(registro, "Lácteos"))
